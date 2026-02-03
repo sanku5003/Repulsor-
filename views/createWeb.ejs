@@ -1,1 +1,197 @@
 <% layout('/flash/flash') %>
+<nav class="web-navbar bg-primary sticky-top">
+  <a class="navbar-brand" href="#">
+    <img src="/photos/rep short logo.png" alt="" width="50px" height="50px">
+    <img src="/photos/rep-text-logo.png" alt="" width="100px" height="50px">
+  </a>
+  <h2 class="web-head">Let's Create a Web Page For Your Institute !! 🎉 </h2>
+</nav>
+
+<form class="web-form" method="POST" enctype="multipart/form-data">
+  <h5>Please Enter These Details :</h5>
+  <div class="web-inner">
+    <h4>Common Details :</h4>
+    <div class="inline">
+      <div class="col-md-5 ">
+        <label for="Institute-logo">Upload Your Institute Logo :</label>
+        <input type="file" class="form-control" id="inputGroupFile01" name="Logo.url">
+      </div>
+      <div class="col-md-5">
+        <label for="Since">Institute Is Running From:</label>
+        <input type="text" class="form-control" id="inputGroupFile01" name="Since">
+      </div>
+
+    </div>
+    <div class="mb-3">
+      <label for="Welcome">Enter A Good Welcome Page Line :</label>
+      <input type="text" class="form-control" id="inputGroupFile01" name="Welcome" placeholder="eg: Welcome to the place where creativity meets excellence">
+    </div>
+    <div class="mb-3">
+      <label for="tagLine">Enter A Tag Line of Your Institute :</label>
+      <input type="text" class="form-control" id="inputGroupFile01" name="tagLine" placeholder="eg : Where Tradition Meets Tomorrow.">
+    </div>
+    <div class="inline">
+      <div class="mb-3">
+        <label for="firstDiv">Enter Percentage Of Students Who got First Division last year:</label>
+        <input type="text" class="form-control" id="inputGroupFile01" name="firstDiv" placeholder="Enter Approx percentage">
+      </div>
+      <div class="mb-3">
+        <label for="firstDiv">Enter Number Of Students Who cracked jee last year:</label>
+        <input type="text" class="form-control" id="inputGroupFile01" name="crakcedJee" placeholder="Students Who cracked jee last year:">
+      </div>
+      <div class="mb-3">
+        <label for="firstDiv">Number Of Students placed in Merit List : </label>
+        <input type="text" class="form-control" id="inputGroupFile01" name="boardMerit" placeholder="Students placed in Merit List ">
+      </div>
+    </div>
+    <label for="aboutUs">Describe Your Institute in Brief :</label>
+    <div class="form-floating">
+      <textarea class="form-control" placeholder="Leave a comment here" name="aboutUs" id="floatingTextarea2" style="height: 100px"></textarea>
+    </div>
+  </div>
+  <div class="web-inner">
+    <h4>Chairman Details : </h4>
+    <div class="inline">
+      <div class="col-md-4">
+        <label for="firstDiv">Chairman Name :</label>
+        <input type="text" class="form-control" id="inputGroupFile01" name="chairmanName" placeholder="Enter Chairman Name ">
+      </div>
+      <div class="mb-3">
+        <label for="chairmanAge">Age :</label>
+        <input type="text" class="form-control" id="inputGroupFile01" name="chairmanAge" placeholder="Enter Age">
+      </div>
+      <div class="mb-3">
+        <label for="Gender">Gender :</label>
+        <select id="inputState" class="form-select" name="ChairmanGender" required>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Others..</option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label for="chairmanQualification">Enter Qualification :</label>
+        <input type="text" class="form-control" id="inputGroupFile01" name="chairmanQualification" placeholder="eg: Btech in Computer Science">
+      </div>
+    </div>
+    <div class="col-md-5 ">
+      <label for="chairmanPhoto">Upload Your Institute Logo :</label>
+      <input type="file" class="form-control" id="inputGroupFile01" name="chairmanPhoto.url">
+    </div>
+    <label for="aboutUs">Some Words From Chairman :</label>
+    <div class="form-floating">
+      <textarea class="form-control" placeholder="Leave a comment here" name="aboutChairman" id="floatingTextarea2" style="height: 60px; width: 60%;"></textarea>
+    </div>
+  </div>
+
+
+  <div class="web-inner">
+    <h5>Principal Details :</h5>
+    <div class="inline">
+      <div class="col-md-4">
+        <label for="firstDiv">Principal Name :</label>
+        <input type="text" class="form-control" id="inputGroupFile01" name="PrincipalName" placeholder="Enter Principal Name ">
+      </div>
+      <div class="mb-3">
+        <label for="PrincipalAge">Age :</label>
+        <input type="text" class="form-control" id="inputGroupFile01" name="PrincipalAge" placeholder="Enter Age">
+      </div>
+      <div class="mb-3">
+        <label for="Gender">Gender :</label>
+        <select id="inputState" class="form-select" name="PrincipalGender" required>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Others..</option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label for="PrincipalQualification">Enter Qualification :</label>
+        <input type="text" class="form-control" id="inputGroupFile01" name="PrincipalQualification" placeholder="eg: Btech in Computer Science">
+      </div>
+    </div>
+    <div class="col-md-5 ">
+      <label for="PrincipalPhoto">Upload Your Institute Logo :</label>
+      <input type="file" class="form-control" id="inputGroupFile01" name="PrincipalPhoto.url">
+    </div>
+    <label for="aboutUs">Some Words From Principal :</label>
+    <div class="form-floating">
+      <textarea class="form-control" placeholder="Leave a comment here" name="aboutPrincipal" id="floatingTextarea2" style="height: 60px; width: 60%;"></textarea>
+    </div>
+  </div>
+  <div class="web-inner">
+    <h5>Events Organised :</h5>
+    <h6>First Event Details :</h6>
+    <div class="inline">
+      <div class="col-md-4">
+        <label for="eventName1">First Event Name :</label>
+        <input type="text" class="form-control" id="inputGroupFile01" name="eventName1" placeholder="eg: Paricharcha or Panache etc">
+      </div>
+      <div class="col-md-4">
+        <label for="eventrole1">First Event Role/Purpose :</label>
+        <input type="text" class="form-control" id="inputGroupFile01" name="eventrole1" placeholder="eg: Annual Sports Event etc">
+      </div>
+      <div class="col-md-2">
+        <label for="eventDate1">First Event Date :</label>
+        <input type="text" class="form-control" id="inputGroupFile01" name="eventDate1" placeholder="eg: Sep 2, 2025 etc">
+      </div>
+    </div>
+    <label for="aboutEvent1">Brief Description About first Event :</label>
+    <div class="form-floating">
+      <textarea class="form-control" placeholder="Leave a comment here" name="aboutEvent1" id="floatingTextarea2" style="height: 60px; width: 60%;"></textarea>
+    </div>
+    <div class="col-md-5 ">
+      <label for="eventPhoto1">Upload First Event Photo :</label>
+      <input type="file" class="form-control" id="inputGroupFile01" name="eventPhoto1.url">
+    </div>
+    <h6>Second Event Details :</h6>
+    <div class="inline">
+      <div class="col-md-4">
+        <label for="eventName2">Second Event Name :</label>
+        <input type="text" class="form-control" id="inputGroupFile01" name="eventName2" placeholder="eg: Paricharcha or Panache etc">
+      </div>
+      <div class="col-md-4">
+        <label for="eventrole2">Second Event Role/Purpose :</label>
+        <input type="text" class="form-control" id="inputGroupFile01" name="eventrole2" placeholder="eg: Annual Sports Event etc">
+      </div>
+      <div class="col-md-2">
+        <label for="eventDate2">Second Event Date :</label>
+        <input type="text" class="form-control" id="inputGroupFile01" name="eventDate2" placeholder="eg: Sep 2, 2025 etc">
+      </div>
+    </div>
+    <label for="aboutEvent2">Brief Description About Second Event :</label>
+    <div class="form-floating">
+      <textarea class="form-control" placeholder="Leave a comment here" name="aboutEvent2" id="floatingTextarea2" style="height: 60px; width: 60%;"></textarea>
+    </div>
+    <div class="col-md-5 ">
+      <label for="eventPhoto2">Upload Second Event Photo :</label>
+      <input type="file" class="form-control" id="inputGroupFile01" name="eventPhoto2.url">
+    </div>
+    <h6>Third Event Details :</h6>
+    <div class="inline">
+      <div class="col-md-4">
+        <label for="eventName3">Third Event Name :</label>
+        <input type="text" class="form-control" id="inputGroupFile01" name="eventName3" placeholder="eg: Paricharcha or Panache etc">
+      </div>
+      <div class="col-md-4">
+        <label for="eventrole3">Third Event Role/Purpose :</label>
+        <input type="text" class="form-control" id="inputGroupFile01" name="eventrole3" placeholder="eg: Annual Sports Event etc">
+      </div>
+      <div class="col-md-2">
+        <label for="eventDate3">Third Event Date :</label>
+        <input type="text" class="form-control" id="inputGroupFile01" name="eventDate3" placeholder="eg: Sep 2, 2025 etc">
+      </div>
+    </div>
+    <label for="aboutEvent3">Brief Description About Third Event :</label>
+    <div class="form-floating">
+      <textarea class="form-control" placeholder="Leave a comment here" name="aboutEvent3" id="floatingTextarea2" style="height: 60px; width: 60%;"></textarea>
+    </div>
+    <div class="col-md-5 ">
+      <label for="eventPhoto3">Upload Third Event Photo :</label>
+      <input type="file" class="form-control" id="inputGroupFile01" name="eventPhoto3.url">
+    </div>
+  </div>
+
+  <div class="signup-btn">
+    <button type="submit" class="btn btn-primary">Create Now!!</button>
+  </div>
+
+</form>
