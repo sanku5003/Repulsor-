@@ -75,14 +75,14 @@ body {
 
         textarea {
             background-color: #757575;
-            
+
         }
 
         textarea::placeholder {
             color: #cacecf;
             font-style: italic;
             opacity: 1;
-           
+
         }
 
         textarea:focus {
@@ -133,16 +133,126 @@ body {
 }
 
 .addbtn {
-      padding: 10px 15px;
-      background: #757575;
-      border: none;
-      color: #ffffff;
-      font-weight: bold;
-      cursor: pointer;
-      border-radius: 6px;
-      margin-top: 20px;
+    padding: 10px 15px;
+    background: #757575;
+    border: none;
+    color: #ffffff;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 6px;
+    margin-top: 20px;
+}
+
+.addbtn:hover {
+    background: #00acc1;
+}
+
+.main-nav {
+    display: flex;
+    width: 100%;
+    padding: 20px;
+    background-color: #00acc1;
+
+    .main-logo {
+        width: 20%;
     }
 
-    .addbtn:hover {
-      background: #00acc1;
+    .main-title {
+        width: 60%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
+
+    .main-admin {
+        width: 10%;
+        display: flex;
+        align-items: center;
+        margin-left: auto;
+
+    }
+
+    .hams {
+        width: 20px;
+        background-color: white;
+        height: 3px;
+        border-radius: 10px;
+    }
+
+
+
+    li {
+        background-color: #757575;
+
+        a {
+            color: white;
+            text-decoration: none;
+
+            &:hover {
+                color: #b8b5b5;
+            }
+        }
+    }
+
+}
+
+.view {
+    width: 100%;
+    height: 90vh;
+    max-height: 720px;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    padding-left: 40px;
+
+}
+
+.slogan {
+    font-size: 4rem;
+    width: 40px;
+    line-height: 1.4;
+    font-weight: bolder;
+    font-style: italic;
+
+}
+
+.btns {
+
+    button {
+        margin-right: 40px;
+        margin-left: 20px;
+    }
+}
+
+.numbers {
+    display: flex;
+    padding: 40px 40px;
+    align-items: center;
+    justify-content: center;
+    gap: 120px;
+
+    .info {
+        display: flex;
+        height: 100%;
+        align-items: center;
+        gap: 10px;
+
+        h1 {
+            font-size: 4rem;
+            font-weight: bold;
+        }
+
+        p {
+            width: 120px;
+            font-weight: bold;
+        }
+    }
+
+    .vertical-line {
+        width: 2px;
+        background-color: white;
+        color: white;
+        height: 70px;
+    }
+}

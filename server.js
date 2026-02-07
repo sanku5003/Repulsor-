@@ -353,9 +353,13 @@ app.post(
 
 app.get('/repulsor/:id/home', async(req, res) => {
     let { id } = req.params;
+    const user = await User.findById(id);
     const basicData = await Basic.findOne({owner : id});
-    console.log({basicData});
-    res.render("webPage/webPage.ejs" , {basicData});
+    const aboutData = await About.findOne({owner : id});
+    const managementData = await management.find({owner : id});
+    const EventData = await Event.find({owner : id});
+    
+    res.render("webPage/webPage.ejs" , {user , basicData , aboutData , managementData , EventData});
 })
 
 
