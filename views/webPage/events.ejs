@@ -1,0 +1,68 @@
+<% layout('/flash/flash') %>
+<div class="sign-navbar">
+  <div class="logo">
+    <img src="/photos/Gemini_Generated_Image_bqkgnzbqkgnzbqkg-Picsart-BackgroundRemover.png" alt="" width="180px" height="70px">
+  </div>
+  <button type="button" class="btn btn-outline-light">Skip For Now</button>
+</div>
+
+<div class="signup">
+  <div class="head">
+    <h1>Let's Create A Web Page For You!!</h1>
+    <img src="/photos/Gemini_Generated_Image_4ypngu4ypngu4ypn-removebg-preview.png" alt="" style="margin-bottom: 40px; margin: 0 auto;">
+  </div>
+  <div class="inner">
+    <h1 class="inner-head">EVENT ORGANIZED</h1>
+    <form action="" method="post" enctype="multipart/form-data">
+      <div id="membersContainer2">
+        <div class="member-form2">
+          <label for="">Enter Events Details :</label>
+
+          <div class="mb-3">
+            <label for="Name" class="form-label">Event Name :</label>
+            <input type="text" class="form-control" id="inputCity" placeholder="eg : Paricharcha etc" name="event[0][Name]" >
+            <div class="invalid-feedback">
+              plz Enter the name of the event...
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="purpose" class="form-label">Event Purpose :</label>
+            <input type="text" class="form-control" id="inputCity" placeholder="eg : Annual Sports Event" name="event[0][purpose]" >
+            <div class="invalid-feedback">
+              plz Enter the name of the event...
+            </div>
+          </div>
+
+          <label style="margin-bottom: 15px;">Describe the Event (4 to 5 lines):</label>
+
+          <textarea name="event[0][about]" placeholder="" style="height: 100px; width: 100%; border: 2px solid white; border-radius: 10px;"></textarea>
+
+           <div class="Institute">
+              <label for="photo" style="margin-bottom: 15px;"><b>Upload Primary Photo Of the event :</b></label>
+              <div class="input-group ">
+                <input type="file" class="form-control" id="inputGroupFile02" name="event[0][primaryPhoto.url]" accept=".jpg , .png , .webp">
+                <div class="invalid-feedback">
+                  please upload a valid photo in jpg/png/webp
+                </div>
+              </div>
+            </div>
+           <div class="Institute">
+              <label for="photo" style="margin-bottom: 15px;"><b>Upload Secondary Photo Of the event :</b></label>
+              <div class="input-group ">
+                <input type="file" class="form-control" id="inputGroupFile02" name="event[0][secondaryPhoto.url]" accept=".jpg , .png , .webp">
+                <div class="invalid-feedback">
+                  please upload a valid photo in jpg/png/webp
+                </div>
+              </div>
+            </div>
+
+
+        </div>
+      </div>
+      <button type="button" class="addbtn" onclick="addMember2()">➕ Add New Event</button>
+      <div class="signup-btn">
+        <button type="submit" class="btn btn-primary">Save And Next</button>
+      </div>
+    </form>
+  </div>
+</div>

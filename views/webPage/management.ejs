@@ -1,0 +1,79 @@
+<% layout('/flash/flash') %>
+<div class="sign-navbar">
+  <div class="logo">
+    <img src="/photos/Gemini_Generated_Image_bqkgnzbqkgnzbqkg-Picsart-BackgroundRemover.png" alt="" width="180px" height="70px">
+  </div>
+  <button type="button" class="btn btn-outline-light">Skip For Now</button>
+</div>
+
+<div class="signup">
+  <div class="head">
+    <h1>Let's Create A Web Page For You!!</h1>
+    <img src="/photos/Gemini_Generated_Image_4ypngu4ypngu4ypn-removebg-preview.png" alt="" style="margin-bottom: 40px; margin: 0 auto;">
+  </div>
+  <div class="inner">
+    <h1 class="inner-head">MANAGEMENT DETAILS</h1>
+    <form action="" method="POST" enctype="multipart/form-data">
+      <div id="membersContainer">
+        <div class="member-form">
+          <label for="">Management Member Details :</label>
+          <div class="col-md-6">
+            <label for="Role" class="form-label">his/her Role in Institute : </label>
+            <input type="text" class="form-control" id="inputCity" placeholder="eg : Chairman , Principal" name="member[0][Role]" >
+            <div class="invalid-feedback">
+              Please enter the role...!!
+            </div>
+          </div>
+          <div class="inline-2">
+            <div class="col-md-6">
+              <label for="Name" class="form-label">Name :</label>
+              <input type="text" class="form-control" id="inputCity" placeholder="Enter Name" name="member[0][Name]" >
+              <div class="invalid-feedback">
+                plz Enter the name of the Management Member...
+              </div>
+            </div>
+            <div class="col-md-1">
+              <label for="age" class="form-label">Age :</label>
+              <input type="text" class="form-control" id="inputCity" placeholder="Age" name="member[0][age]" >
+              <div class="invalid-feedback">
+                plz Enter the age..
+              </div>
+            </div>
+            <div class="col-md-2">
+              <label for="gender" style="margin-bottom: 10px;">Gender :</label>
+              <select class="form-select" aria-label="Default select example" name="member[0][Gender]">
+                <option selected>Gender</option>
+                <option value="1">Male</option>
+                <option value="2">Female</option>
+                <option value="3">Other..</option>
+              </select>
+            </div>
+          </div>
+          <div class="inline-2">
+            <div class="col-md-8">
+              <label for="Qualification" class="form-label">Qualification/Achievement :</label>
+              <input type="text" class="form-control" id="inputCity" placeholder="eg : B.tech in Computer Science" name="member[0][Qualification]" >
+              <div class="invalid-feedback">
+                Plz Enter The Qualification or achievement..
+              </div>
+            </div>
+            <div class="Institute">
+              <label for="photo" style="margin-bottom: 15px;"><b>Upload A Photo :</b></label>
+              <div class="input-group ">
+                <input type="file" class="form-control" id="inputGroupFile02" name="member[0][photo.url]" accept=".jpg , .png , .webp">
+                <div class="invalid-feedback">
+                  please upload a valid photo in jpg/png/webp
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+    </div>
+    <button type="button" class="addbtn" onclick="addMember()">➕ Add New Member</button>
+      <div class="signup-btn">
+        <button type="submit" class="btn btn-primary">Save And Next</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,23 +1,44 @@
 body {
-    background-color: #ffffff !important;
-    color: white;
+    background-color: black !important;
+    color: white !important;
 }
 
 * {
-    color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
 
 }
 
+.sign-navbar {
+    padding: 20px;
+    width: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+
+    button {
+        margin-left: auto;
+        height: 40px;
+        margin-top: auto;
+        margin-bottom: auto;
+
+    }
+}
+
+
+
 .signup {
-    padding: 40px;
+    padding: 20px 40px;
     display: flex;
     flex-direction: column;
-    align-items: center;
 
-    h2 {
-        font-family: "IM Fell French Canon", serif;
+
+    h1 {
+        font-family: "Dancing Script", cursive;
+        font-optical-sizing: auto;
         font-weight: 400;
         font-style: normal;
+        color: rgb(22, 22, 253);
+        text-align: center;
 
     }
 
@@ -31,27 +52,44 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 40px 120px;
+    padding: 40px 60px;
 
     form {
         width: 100%;
-        padding-right: 120px;
+
 
         label {
-            color: #000000;
+            color: #ffffff;
             margin-top: 10px;
         }
 
         input,
         select {
-
-            background-color: rgb(209, 241, 248);
+            background-color: #757575;
         }
 
         option,
         optgroup {
             color: black;
         }
+
+        textarea {
+            background-color: #757575;
+            
+        }
+
+        textarea::placeholder {
+            color: #cacecf;
+            font-style: italic;
+            opacity: 1;
+           
+        }
+
+        textarea:focus {
+            background-color: #757575;
+            color: white;
+        }
+
 
 
 
@@ -61,8 +99,10 @@ body {
 .inline {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     gap: 30px;
     margin-top: 10px;
+
 
 }
 
@@ -74,56 +114,35 @@ body {
     justify-content: center;
 }
 
-.web-form {
-    width: 100%;
-    padding: 60px;
-    padding-right: 120px;
-    label {
-        color: #000000;
-        margin-top: 10px;
-    }
-
-    input,
-    select ,
-    textarea {
-        margin-top: 10px;
-        background-color: rgb(209, 241, 248);
-    }
-
-}
-
-.web-inner {
-    border: 1px solid black;
-    background-color: rgb(242, 240, 255);
-    border-radius: 15px;
-    padding: 20px 40px;
-    margin-top: 30px;
-    h6{
-        margin-top:30px;
-    }
-}
-
-.web-head {
-    text-align: center;
-    font-family: "IM Fell French Canon", serif;
-    font-weight: 400;
-    font-style: normal;
-    color: white;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.web-navbar {
-    width: 100%;
-    margin: 0;
-    padding: 20px;
+.head {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
 
 }
 
-.web-look {
-    margin-top: 20px;
-    margin-left: 40px;
-    margin-bottom: 0;
+.inner-head {
+    font-family: "Lustria" !important;
+    color: rgb(5, 169, 224) !important;
 }
 
+.inline-2 {
+    display: flex;
+    gap: 40px;
+    width: 100%;
+}
+
+.addbtn {
+      padding: 10px 15px;
+      background: #757575;
+      border: none;
+      color: #ffffff;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 6px;
+      margin-top: 20px;
+    }
+
+    .addbtn:hover {
+      background: #00acc1;
+    }

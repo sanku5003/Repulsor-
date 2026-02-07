@@ -15,7 +15,11 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const User = require('./models/User.js');
 const upload = multer({ dest: 'uploads/' });
-const WebPage = require('./models/webPage.js');
+const Basic = require("./models/webPage/basic.js");
+const About = require("./models/webPage/about.js");
+const management = require("./models/webPage/management.js");
+const Event = require("./models/webPage/events.js");
+
 let port = 8080;
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/repulsor";
@@ -100,7 +104,7 @@ app.post('/repulsor/register', async (req, res) => {
 
         req.flash("success", "Registration successful 🎉");
 
-        res.redirect(`/repulsor/${registeredSchool._id}/createWeb`);
+        res.redirect(`/repulsor/${registeredSchool._id}/basic`);
 
     } catch (err) {
         req.flash("error", err.message);
@@ -112,125 +116,247 @@ app.get("/repulsor/register", (req, res) => {
     res.render("signup.ejs");
 })
 
-app.get('/repulsor/:id/createWeb', async (req, res) => {
+app.get('/repulsor/:id/basic', async (req, res) => {
     let { id } = req.params;
     const user = User.findById(id);
-    res.render('createWeb.ejs', { user });
+    res.render('webPage/basic.ejs', { user });
 })
 
-
-
 app.post(
-    "/repulsor/:id/createWeb",
+    '/repulsor/:id/basic',
     upload.fields([
-        { name: "Logo.url", maxCount: 1 },
-        { name: "chairmanPhoto.url", maxCount: 1 },
-        { name: "PrincipalPhoto.url", maxCount: 1 },
-        { name: "eventPhoto1.url", maxCount: 1 },
-        { name: "eventPhoto2.url", maxCount: 1 },
-        { name: "eventPhoto3.url", maxCount: 1 }
+        { name: 'logo.url', maxCount: 1 },
+        { name: 'cover.url', maxCount: 1 }
     ]),
     async (req, res) => {
         try {
             const { id } = req.params;
 
-            const webPage = new WebPage({
-                Logo: req.files["Logo.url"]
+            const {
+                slogan,
+                num1, text1,
+                num2, text2,
+                num3, text3
+            } = req.body;
+
+            const logoFile = req.files['logo.url']?.[0];
+            const coverFile = req.files['cover.url']?.[0];
+
+            const basicData = new Basic({
+                slogan,
+                num1,
+                text1,
+                num2,
+                text2,
+                num3,
+                text3,
+                owner: id,
+                logo: logoFile
                     ? {
-                        filename: req.files["Logo.url"][0].filename,
-                        url: req.files["Logo.url"][0].path
+                        filename: logoFile.filename,
+                        url: `/uploads/${logoFile.filename}`
                     }
                     : undefined,
-
-                Since: req.body.Since,
-                Welcome: req.body.Welcome,
-                tagLine: req.body.tagLine,
-                firstDiv: req.body.firstDiv,
-                crakedJee: req.body.crakcedJee,
-                boardMerit: req.body.boardMerit,
-                aboutUs: req.body.aboutUs,
-
-                chairmanName: req.body.chairmanName,
-                chairmanAge: req.body.chairmanAge,
-                chairmanGender: req.body.ChairmanGender,
-                chairmanQualification: req.body.chairmanQualification,
-
-                chairmanPhoto: req.files["chairmanPhoto.url"]
+                cover: coverFile
                     ? {
-                        filename: req.files["chairmanPhoto.url"][0].filename,
-                        url: req.files["chairmanPhoto.url"][0].path
+                        filename: coverFile.filename,
+                        url: `/uploads/${coverFile.filename}`
                     }
-                    : undefined,
-
-                aboutChairman: req.body.aboutChairman,
-
-                principalName: req.body.PrincipalName,
-                principalAge: req.body.PrincipalAge,
-                principalGender: req.body.PrincipalGender,
-                principalQualification: req.body.PrincipalQualification,
-
-                principalPhoto: req.files["PrincipalPhoto.url"]
-                    ? {
-                        filename: req.files["PrincipalPhoto.url"][0].filename,
-                        url: req.files["PrincipalPhoto.url"][0].path
-                    }
-                    : undefined,
-
-                aboutprincipal: req.body.aboutPrincipal,
-
-                eventName1: req.body.eventName1,
-                eventRole1: req.body.eventrole1,
-                eventDate1: req.body.eventDate1,
-                aboutEvent1: req.body.aboutEvent1,
-                eventPhoto1: req.files["eventPhoto1.url"]
-                    ? {
-                        filename: req.files["eventPhoto1.url"][0].filename,
-                        url: req.files["eventPhoto1.url"][0].path
-                    }
-                    : undefined,
-
-                eventName2: req.body.eventName2,
-                eventRole2: req.body.eventrole2,
-                eventDate2: req.body.eventDate2,
-                aboutEvent2: req.body.aboutEvent2,
-                eventPhoto2: req.files["eventPhoto2.url"]
-                    ? {
-                        filename: req.files["eventPhoto2.url"][0].filename,
-                        url: req.files["eventPhoto2.url"][0].path
-                    }
-                    : undefined,
-
-                eventName3: req.body.eventName3,
-                eventRole3: req.body.eventrole3,
-                eventDate3: req.body.eventDate3,
-                aboutEvent3: req.body.aboutEvent3,
-                eventPhoto3: req.files["eventPhoto3.url"]
-                    ? {
-                        filename: req.files["eventPhoto3.url"][0].filename,
-                        url: req.files["eventPhoto3.url"][0].path
-                    }
-                    : undefined,
-
-                owner: id
+                    : undefined
             });
 
-            let pageId = await webPage.save();
+            await basicData.save();
 
-            res.redirect(`/repulsor/${pageId._id}`);
+            req.flash("success", "Basic details saved successfully 🚀");
+            res.redirect(`/repulsor/${id}/about`);
+
         } catch (err) {
             console.error(err);
-            res.status(500).send("Something went wrong while creating the webpage");
+            req.flash("error", "Something went wrong while saving details");
+            res.redirect(`/repulsor/${id}/basic`);
         }
     }
 );
 
-app.get("/repulsor/:id/", async (req, res) => {
+app.get("/repulsor/:id/about", (req, res) => {
     let { id } = req.params;
-    let web = await WebPage.findById(id).populate("owner");
-    res.render("schoolHome.ejs", { web });
+    res.render("webPage/about.ejs");
 })
 
+app.post("/repulsor/:id/about", async (req, res) => {
+    try {
+        const { id } = req.params;
+        let { aboutBrief, about } = req.body;
+        let aboutData = new About({
+            aboutBrief,
+            about,
+            owner: id
+        })
 
+        aboutData.save();
+        res.redirect(`/repulsor/${id}/management`);
+    } catch {
+
+        req.flash("error", "Something went wrong while saving details");
+        res.redirect(`/repulsor/${id}/about`);
+    }
+
+})
+
+app.get('/repulsor/:id/management', (req, res) => {
+    let { id } = req.params;
+    res.render('webpage/management.ejs');
+})
+
+// app.post('/repulsor/:id/management', async (req, res) => {
+//     try {
+
+//         let team = new management({
+//             member: req.body.member,
+//             owner: id
+//         })
+//         await team.save();
+//         res.redirect(`/repulsor/${id}/events`);
+//     } catch {
+//         let { id } = req.params;
+//         req.flash("error", "Something went wrong while saving details");
+//         res.redirect(`/repulsor/${id}/management`);
+//     }
+
+
+// })
+
+
+app.post(
+    '/repulsor/:id/management',
+    upload.any(),
+    async (req, res) => {
+        try {
+            let { id } = req.params;
+
+            // member text data
+            const memberBody = req.body.member[0];
+
+            // photo file
+            const photoFile = req.files.find(
+                f => f.fieldname === 'member[0][photo.url]'
+            );
+
+            const team = new management({
+                member: [
+                    {
+                        Role: memberBody.Role,
+                        Name: memberBody.Name,
+                        age: memberBody.age,
+                        Gender: memberBody.Gender,
+                        Qualification: memberBody.Qualification,
+                        photo: photoFile
+                            ? {
+                                filename: photoFile.filename,
+                                url: `/uploads/${photoFile.filename}`
+                            }
+                            : undefined
+                    }
+                ],
+                owner: id
+            });
+
+            await team.save();
+            res.redirect(`/repulsor/${id}/events`);
+
+        } catch (err) {
+            console.error(err);
+            req.flash("error", "Something went wrong while saving details");
+            res.redirect(`/repulsor/${id}/management`);
+        }
+    }
+);
+
+
+app.get('/repulsor/:id/events', (req, res) => {
+    let { id } = req.params;
+    res.render('webPage/events.ejs');
+})
+
+// app.post('/repulsor/:id/events',  async (req, res) => {
+//     try {
+//         let { id } = req.params;
+//         let eventData = new Event({
+//             event: req.body.event,
+//             owner: id
+//         })
+
+//         await eventData.save();
+//         res.redirect(`/repulsor/${id}/home`);
+//     } catch {
+//         let { id } = req.params;
+//         req.flash("error", "Something went wrong while saving details");
+
+//         res.redirect(`/repulsor/${id}/events`);
+//     }
+// })
+
+
+app.post(
+    '/repulsor/:id/events',
+    upload.any(),
+    async (req, res) => {
+        try {
+            let { id } = req.params;
+
+            const eventBody = req.body.event[0];
+
+            // identify files manually
+            const primaryFile = req.files.find(
+                f => f.fieldname === 'event[0][primaryPhoto.url]'
+            );
+
+            const secondaryFile = req.files.find(
+                f => f.fieldname === 'event[0][secondaryPhoto.url]'
+            );
+
+            const eventData = new Event({
+                event: [
+                    {
+                        Name: eventBody.Name,
+                        purpose: eventBody.purpose,
+                        about: eventBody.about,
+                        primaryPhoto: primaryFile
+                            ? {
+                                filename: primaryFile.filename,
+                                url: `/uploads/${primaryFile.filename}`
+                            }
+                            : undefined,
+                        secondaryPhoto: secondaryFile
+                            ? {
+                                filename: secondaryFile.filename,
+                                url: `/uploads/${secondaryFile.filename}`
+                            }
+                            : undefined
+                    }
+                ],
+                owner: id
+            });
+
+            await eventData.save();
+            res.redirect(`/repulsor/${id}/home`);
+
+        } catch (err) {
+            console.error(err);
+            req.flash("error", "Something went wrong while saving details");
+            res.redirect(`/repulsor/${id}/events`);
+        }
+    }
+);
+
+
+
+app.get('/repulsor/:id/home', async(req, res) => {
+    let { id } = req.params;
+    const basicData = await Basic.findOne({owner : id});
+    console.log({basicData});
+    res.render("webPage/webPage.ejs" , {basicData});
+})
 
 
 app.listen(port, () => {
