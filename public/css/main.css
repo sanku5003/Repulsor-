@@ -136,7 +136,7 @@ body {
     }
 
     .logo {
-        width: 10%;
+        width: 13%;
         height: 100%;
         margin: 0;
         padding: 0;
@@ -147,4 +147,49 @@ body {
         width: 100%;
         height: 100%;
     }
+
+
+    .menu {
+        display: flex;
+        align-items: center;
+        gap: 40px;
+        padding: 20px;
+
+        background-color: #7575757c;
+        backdrop-filter: blur(22px);
+        border-radius: 30px;
+
+        a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            position: relative;
+            display: inline-block;
+
+        }
+    }
+}
+
+.hover-underline::after,
+.hover-underline::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, #03a3b1, #00ffff);
+    bottom: -5px;
+    left: 0;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s ease-out;
+}
+
+.hover-underline::before {
+    top: -5px;
+    transform-origin: left;
+}
+
+.hover-underline:hover::after,
+.hover-underline:hover::before {
+    transform: scaleX(1);
 }
