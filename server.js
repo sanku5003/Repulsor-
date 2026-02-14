@@ -23,6 +23,7 @@ const client = twilio(
 
 
 const User = require('./models/User.js');
+const Student = require('./models/student.js');
 const upload = multer({ dest: 'uploads/' });
 
 let port = 8080;
@@ -85,7 +86,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 passport.use(
     new Localstrategy(
-        { usernameField: 'email' },  
+        { usernameField: 'email' },
         User.authenticate()
     )
 );
@@ -108,17 +109,17 @@ app.post('/repulsor/register', async (req, res) => {
             adminName, adminContact, adminEmail, password
         } = req.body;
 
-        
+
         const secret = speakeasy.generateSecret({ length: 20 });
 
-       
+
         const token = speakeasy.totp({
             secret: secret.base32,
             encoding: 'base32',
             step: 300
         });
 
-       
+
         req.session.tempRegistration = {
             Title, Board, Code, City, State,
             email, Contact,
@@ -133,7 +134,7 @@ app.post('/repulsor/register', async (req, res) => {
             return res.redirect("/repulsor/register");
         }
 
-        
+
         await client.messages.create({
             body: `Your OTP is ${token}`,
             from: process.env.TWILIO_PHONE,
@@ -200,28 +201,159 @@ app.post('/repulsor/verify-otp', async (req, res) => {
         res.redirect(`/repulsor/adminLogin`);
 
     } catch (err) {
-        console.log(err); 
+        console.log(err);
         req.flash("error", err.message);
         res.redirect("/repulsor/register");
     }
 });
 
+app.get("/repulsor/logout", (req, res, next) => {
+    req.logout(function (err) {
+        if (err) return next(err);
+        req.flash("success", "Logged out successfully");
+        res.redirect("/");
+    });
+});
+
+
 app.get("/repulsor/adminLogin", (req, res) => {
-    if (req.session.admin) {
-        return res.redirect("/repulsor/adminDashboard");
+    if (req.isAuthenticated()) {
+        return res.redirect(`/repulsor/${req.user._id}`);
     }
-    res.render('login/adminLogin.ejs');
-})
+    res.render("login/adminLogin.ejs");
+});
+
+
+// app.post(
+//     "/repulsor/adminLogin",
+//     passport.authenticate("local", {
+//         failureRedirect: "/repulsor/adminLogin",
+//         failureFlash: true
+//     }),
+//     (req, res) => {
+//         req.flash("success", "Welcome Back Admin 🎉");
+
+//         // redirect to dynamic admin page
+//         res.redirect(`/repulsor/${req.user._id}`);
+//     }
+// );
+
+app.post("/repulsor/adminLogin", async (req, res, next) => {
+    passport.authenticate("local", async (err, user, info) => {
+        if (err) return next(err);
+
+        if (!user) {
+            req.flash("error", "Invalid Email or Password");
+            return res.redirect("/repulsor/adminLogin");
+        }
+
+        // Generate OTP
+        const secret = speakeasy.generateSecret({ length: 20 });
+
+        const token = speakeasy.totp({
+            secret: secret.base32,
+            encoding: "base32",
+            step: 300
+        });
+
+        // Store temporarily in session
+        req.session.loginOTP = {
+            userId: user._id,
+            otpSecret: secret.base32
+        };
+
+        // Send SMS
+        await client.messages.create({
+            body: `Your Login OTP is ${token}`,
+            from: process.env.TWILIO_PHONE,
+            to: `+91${user.Contact}`
+        });
+
+        req.flash("success", "OTP sent to registered mobile number");
+        res.redirect("/repulsor/login-otp");
+
+    })(req, res, next);
+});
+
+
+app.get("/repulsor/login-otp", (req, res) => {
+    if (!req.session.loginOTP) {
+        return res.redirect("/repulsor/adminLogin");
+    }
+    res.render("login/loginOtp.ejs");
+});
+
+
+app.post("/repulsor/login-otp", async (req, res, next) => {
+    const { otp } = req.body;
+    const sessionData = req.session.loginOTP;
+
+    if (!sessionData) {
+        req.flash("error", "Session expired. Login again.");
+        return res.redirect("/repulsor/adminLogin");
+    }
+
+    const verified = speakeasy.totp.verify({
+        secret: sessionData.otpSecret,
+        encoding: "base32",
+        token: otp,
+        step: 300,
+        window: 1
+    });
+
+    if (!verified) {
+        req.flash("error", "Invalid or expired OTP");
+        return res.redirect("/repulsor/login-otp");
+    }
+
+    // OTP correct → Log user in manually
+    const user = await User.findById(sessionData.userId);
+
+    req.login(user, (err) => {
+        if (err) return next(err);
+
+        delete req.session.loginOTP;
+
+        req.flash("success", "Login successful 🎉");
+        res.redirect(`/repulsor/${user._id}`);
+    });
+});
+
+
 
 function isAdminLoggedIn(req, res, next) {
-    if (!req.session.admin) {
+    if (!req.isAuthenticated()) {
+        req.flash("error", "Please login first!");
         return res.redirect("/repulsor/adminLogin");
     }
     next();
 }
 
 
+app.get("/repulsor/:id", isAdminLoggedIn, async (req, res) => {
+    const { id } = req.params;
+    if (req.user._id.toString() !== id) {
+        req.flash("error", "Unauthorized Access");
+        return res.redirect(`/repulsor/${req.user._id}`);
+    }
 
+    const admin = await User.findById(id);
+    res.render("admin/dashboard.ejs", { admin });
+});
+
+
+app.get("/repulsor/:id/student", isAdminLoggedIn, async (req, res) => {
+    const { id } = req.params;
+    if (req.user._id.toString() !== id) {
+        req.flash("error", "Unauthorized Access");
+        return res.redirect(`/repulsor/${req.user._id}`);
+    }
+    const admin = await User.findById(id);
+    const student = await Student.find({ school: id });
+
+    res.render('admin/student.ejs' , {admin , student});
+
+})
 
 
 
