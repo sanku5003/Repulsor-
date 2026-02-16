@@ -355,6 +355,11 @@ app.get("/repulsor/:id/student", isAdminLoggedIn, async (req, res) => {
 
 })
 
+app.get("/repulsor/:id/addStudent" , (req , res) =>{
+    let {id} = req.params;
+    res.render('admin/addStudent.ejs');
+})
+
 
 
 
