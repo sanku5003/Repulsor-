@@ -351,15 +351,57 @@ app.get("/repulsor/:id/student", isAdminLoggedIn, async (req, res) => {
     const admin = await User.findById(id);
     const student = await Student.find({ school: id });
 
-    res.render('admin/student.ejs' , {admin , student});
+    res.render('admin/student.ejs', { admin, student });
 
 })
 
-app.get("/repulsor/:id/addStudent" , (req , res) =>{
-    let {id} = req.params;
-    res.render('admin/addStudent.ejs');
+app.get("/repulsor/:id/addStudent", (req, res) => {
+    let { id } = req.params;
+    let user = User.findById(id);
+    res.render('admin/addStudent.ejs' , {user});
 })
 
+
+app.post(
+     "/repulsor/:id/addStudent",
+  upload.single("photo"),
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      // Check if school/user exists
+      const school = await User.findById(id);
+      if (!school) {
+        return res.status(404).send("School not found");
+      }
+
+      // Create student object
+      const newStudent = new Student({
+        ...req.body,
+        school: id,
+        addedAt: new Date(),
+      });
+
+      // If image uploaded
+      if (req.file) {
+        newStudent.photo = {
+          url: req.file.path,
+          filename: req.file.filename,
+        };
+      }
+
+      // Save student
+      await newStudent.save();
+
+      // Redirect to student list page
+      res.redirect(`/repulsor/${id}/student`);
+
+    } catch (err) {
+      console.error("Error adding student:", err);
+      res.status(500).send("Internal Server Error");
+    }
+  }
+)
 
 
 

@@ -19,6 +19,16 @@ const studentSchema = new Schema({
         default: "A"
     },
 
+    photo: {
+        url: String,
+        filename: String
+    },
+
+    gender: {
+        type: String,
+        required: true
+    },
+
     dob: {
         type: Date,
         required: true
@@ -35,8 +45,14 @@ const studentSchema = new Schema({
         required: true,
         unique: true
     },
+
     registrationNo: {
         type: Number,
+        required: true
+    },
+
+    admissionDate: {
+        type: Date,
         required: true
     },
 
@@ -45,7 +61,6 @@ const studentSchema = new Schema({
         required: true
     },
 
-    admissionDate: Date,
 
     Address: {
         type: String,
@@ -62,12 +77,17 @@ const studentSchema = new Schema({
         required: true
     },
 
+    pinCode: {
+        type: Number,
+        required: true
+    },
+
     fatherName: {
         type: String,
         required: true
     },
 
-    gaurdianContact: {
+    fatherContact: {
         type: Number,
         required: true
     },
@@ -78,6 +98,7 @@ const studentSchema = new Schema({
     },
 
     category: String,
+    addedAt: Date,
 
     school: {
         type: Schema.Types.ObjectId,
