@@ -529,15 +529,15 @@ h1 {
     color: #dd5;
 }
 
-.tableItem{
+.tableItem {
     border-radius: 10px;
-     box-shadow: 0px 4px 4px rgba(255, 255, 255, 0.229);
+    box-shadow: 0px 4px 4px rgba(255, 255, 255, 0.229);
 }
 
 .tableItem:hover {
 
     transform: translateY(-5px);
     transition: 200ms all;
-   
+
 
 }

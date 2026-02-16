@@ -11,7 +11,7 @@
   <h1>Add New Student</h1>
   <img src="/photos/Gemini_Generated_Image_4ypngu4ypngu4ypn-removebg-preview.png" alt="" width="500px" style="margin-bottom: 40px; margin: 0 auto;">
   <div class="inner">
-    <form  method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
+    <form method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
       <div class="inline">
         <div class="col-md-6">
           <label for="name" class="form-label">Student's Name : </label>
@@ -83,14 +83,24 @@
       <div class="inline">
         <div class="col-md-4">
           <label for="inputCity" class="form-label">Contact : </label>
-          <input type="text" class="form-control" id="inputCity" placeholder="Enter Institute Contact No. " name="contact" pattern="[0-9]{10}" required>
+          <input type="text" id="inputCity" value="<%= oldData?.contact || '' %>" class="form-control <%= errors?.contact ? 'is-invalid' : '' %>" placeholder="Enter Institute Contact No. " name="contact" pattern="[0-9]{10}" required>
+          <% if (errors?.contact) { %>
+          <div class="invalid-feedback">
+            <%= errors.contact %>
+          </div>
+          <% } %>
           <div class="invalid-feedback">
             please enter a valid contact no
           </div>
         </div>
         <div class="col-md-6">
           <label for="inputCity" class="form-label">Email : </label>
-          <input type="email" class="form-control" id="inputCity" placeholder="Enter Institute Email" name="email" required>
+          <input type="email" id="inputCity" placeholder="Enter Institute Email" name="email" value="<%= oldData?.email || '' %>" class="form-control <%= errors?.email ? 'is-invalid' : '' %>" required>
+          <% if (errors?.email) { %>
+          <div class="invalid-feedback">
+            <%= errors.email %>
+          </div>
+          <% } %>
           <div class="invalid-feedback">
             Please Enter a valid Email
           </div>
@@ -100,7 +110,12 @@
       <div class="inline">
         <div class="col-md-4">
           <label for="inputCity" class="form-label">Registration No : </label>
-          <input type="text" class="form-control" id="inputCity" placeholder="Enter Registration No. " name='registrationNo' maxlength="10" required>
+          <input type="text" value="<%= oldData?.regNo || '' %>" class="form-control <%= errors?.regNo ? 'is-invalid' : '' %>" id="inputCity" placeholder="Enter Registration No. " name='registrationNo' maxlength="10" required>
+          <% if (errors?.regNo) { %>
+          <div class="invalid-feedback">
+            <%= errors.regNo %>
+          </div>
+          <% } %>
           <div class="invalid-feedback">
             please enter Registration No.
           </div>
@@ -116,7 +131,12 @@
 
         <div class="col-md-4">
           <label for="inputCity" class="form-label">Roll No : </label>
-          <input type="text" class="form-control" id="inputCity" placeholder="Enter Roll No. " name='rollNo' maxlength="10" required>
+          <input type="text" value="<%= oldData?.rollNo || '' %>" class="form-control <%= errors?.rollNo ? 'is-invalid' : '' %>" id="inputCity" placeholder="Enter Roll No. " name='rollNo' maxlength="10" required>
+          <% if (errors?.rollNo) { %>
+          <div class="invalid-feedback">
+            <%= errors.rollNo %>
+          </div>
+          <% } %>
           <div class="invalid-feedback">
             please enter Roll No.
           </div>
@@ -201,7 +221,7 @@
           <label for="name" class="form-label">Father's Name : </label>
           <input type="text" class="form-control" id="exampleFormControlInput1" name="fatherName" placeholder="Enter Father's Name" required>
           <div class="invalid-feedback">
-            this field can't be empty
+           Student With this Father Name Already Exist!!
           </div>
         </div>
 

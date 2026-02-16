@@ -358,50 +358,72 @@ app.get("/repulsor/:id/student", isAdminLoggedIn, async (req, res) => {
 app.get("/repulsor/:id/addStudent", (req, res) => {
     let { id } = req.params;
     let user = User.findById(id);
-    res.render('admin/addStudent.ejs' , {user});
+    res.render('admin/addStudent.ejs', {
+        user, errors: {},
+        oldData: {}
+    });
 })
 
 
+
 app.post(
-     "/repulsor/:id/addStudent",
-  upload.single("photo"),
-  async (req, res) => {
-    try {
-      const { id } = req.params;
+    "/repulsor/:id/addStudent",
+    upload.single("photo"),
+    async (req, res) => {
+        try {
+            const { id } = req.params;
 
-      // Check if school/user exists
-      const school = await User.findById(id);
-      if (!school) {
-        return res.status(404).send("School not found");
-      }
+            const newStudent = new Student({
+                ...req.body,
+                school: id,
+                addedAt: new Date(),
+            });
 
-      // Create student object
-      const newStudent = new Student({
-        ...req.body,
-        school: id,
-        addedAt: new Date(),
-      });
+            if (req.file) {
+                newStudent.photo = {
+                    url: req.file.path,
+                    filename: req.file.filename,
+                };
+            }
 
-      // If image uploaded
-      if (req.file) {
-        newStudent.photo = {
-          url: req.file.path,
-          filename: req.file.filename,
-        };
-      }
+            await newStudent.save();
 
-      // Save student
-      await newStudent.save();
+            res.redirect(`/repulsor/${id}/student`);
 
-      // Redirect to student list page
-      res.redirect(`/repulsor/${id}/student`);
+        } catch (err) {
 
-    } catch (err) {
-      console.error("Error adding student:", err);
-      res.status(500).send("Internal Server Error");
+            // 🔥 Duplicate key error
+            if (err.code === 11000) {
+                const errors = {};
+
+                if (err.keyPattern.email) {
+                    errors.email = "Email already exists";
+                }
+
+                if (err.keyPattern.contact) {
+                    errors.contact = "Contact number already exists";
+                }
+
+                if (err.keyPattern.rollNo) {
+                    errors.rollNo = "Roll number already exists";
+                }
+
+                if (err.keyPattern.regNo) {
+                    errors.regNo = "Registration number already exists";
+                }
+
+                return res.render("admin/addStudent.ejs", {
+                    errors,
+                    oldData: req.body
+                });
+            }
+
+            console.error(err);
+            res.status(500).send("Something went wrong");
+        }
     }
-  }
-)
+);
+
 
 
 

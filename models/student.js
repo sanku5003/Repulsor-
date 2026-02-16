@@ -48,7 +48,8 @@ const studentSchema = new Schema({
 
     registrationNo: {
         type: Number,
-        required: true
+        required: true ,
+        unique : true
     },
 
     admissionDate: {
@@ -58,7 +59,8 @@ const studentSchema = new Schema({
 
     rollNo: {
         type: Number,
-        required: true
+        required: true ,
+        unique : true
     },
 
 
