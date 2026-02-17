@@ -541,3 +541,7 @@ h1 {
 
 
 }
+
+.tableHead {
+    background: linear-gradient(180deg, #414645, #0000ff);
+}
