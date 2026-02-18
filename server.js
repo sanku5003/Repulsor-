@@ -47,7 +47,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
-
+app.use("/uploads", express.static("uploads"));
 
 
 
@@ -344,16 +344,45 @@ app.get("/repulsor/:id", isAdminLoggedIn, async (req, res) => {
 
 app.get("/repulsor/:id/student", isAdminLoggedIn, async (req, res) => {
     const { id } = req.params;
-    if (req.user._id.toString() !== id) {
-        req.flash("error", "Unauthorized Access");
-        return res.redirect(`/repulsor/${req.user._id}`);
-    }
+    const { class: classFilter, sec, search } = req.query;
     const admin = await User.findById(id);
-    const student = await Student.find({ school: id });
 
-    res.render('admin/student.ejs', { admin, student });
+    let filter = { school: id };
 
-})
+    // Class filter
+    if (classFilter) {
+        filter.class = classFilter;
+    }
+
+    // Section filter
+    if (sec) {
+        filter.sec = sec;
+    }
+
+    // 🔥Search filter
+    if (search) {
+        filter.$or = [
+            { name: { $regex: search, $options: "i" } },
+            { fatherName: { $regex: search, $options: "i" } },
+            { city: { $regex: search, $options: "i" } },
+            { state: { $regex: search, $options: "i" } },
+            { contact: { $regex: search, $options: "i" } },
+            { fatherContact: { $regex: search, $options: "i" } },
+            { email: { $regex: search, $options: "i" } },
+            { registrationNo: { $regex: search, $options: "i" } },
+        ];
+    }
+
+    const student = await Student.find(filter);
+
+    res.render("admin/student.ejs", {
+        student,
+        req , 
+        admin
+    });
+});
+
+
 
 app.get("/repulsor/:id/addStudent", (req, res) => {
     let { id } = req.params;
@@ -381,7 +410,7 @@ app.post(
 
             if (req.file) {
                 newStudent.photo = {
-                    url: req.file.path,
+                    url: "/" + req.file.path.replace(/\\/g, "/"),
                     filename: req.file.filename,
                 };
             }
@@ -392,7 +421,7 @@ app.post(
 
         } catch (err) {
 
-            // 🔥 Duplicate key error
+
             if (err.code === 11000) {
                 const errors = {};
 

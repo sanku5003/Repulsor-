@@ -35,7 +35,7 @@ const studentSchema = new Schema({
     },
 
     contact: {
-        type: Number,
+        type: String,
         required: true,
         unique: true
     },
@@ -47,8 +47,8 @@ const studentSchema = new Schema({
     },
 
     registrationNo: {
-        type: Number,
-        required: true ,
+        type: String,
+        required: true,
         unique : true
     },
 
@@ -90,7 +90,7 @@ const studentSchema = new Schema({
     },
 
     fatherContact: {
-        type: Number,
+        type: String,
         required: true
     },
 

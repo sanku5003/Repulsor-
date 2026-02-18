@@ -59,3 +59,8 @@ searchForm.addEventListener("click", () => {
 });
 // Expand sidebar by default on large screens
 if (window.innerWidth > 768) sidebar.classList.remove("collapsed");
+
+
+
+
+

@@ -21,7 +21,7 @@
         <!-- Sidebar Menu -->
         <ul class="menu-list">
           <li class="menu-item">
-            <a href="#" class="menu-link ">
+            <a href="/repulsor/<%=admin._id%>" class="menu-link ">
               <span class="material-symbols-rounded">dashboard</span>
               <span class="menu-label">Dashboard</span>
             </a>
@@ -77,7 +77,7 @@
         </button>
       </div>
     </aside>
-    <!-- Site main content -->
+
     <div class="main-content">
       <div class="page-title">
         <div class="title">
@@ -86,10 +86,44 @@
         </div>
         <a href="/repulsor/logout">Logout</a>
       </div>
+
       <div class="filter">
-        <form action="">
+
+        <form method="GET" class="row g-3 align-items-center inline">
+
+        
+          <div class="col-md-2">
+            <select class="form-select" name="class" onchange="this.form.submit()">
+              <option value="">All Classes</option>
+
+              <% for(let i = 1; i <= 12; i++) { %>
+              <option value="<%= i %>" <%= req.query.class == i ? 'selected' : '' %>>
+                <%= i %>
+              </option>
+              <% } %>
+            </select>
+          </div>
+
+
+          <div class="col-md-2">
+            <select class="form-select" name="sec" onchange="this.form.submit()">
+              <option value="">All Sections</option>
+
+              <option value="A" <%= req.query.sec === 'A' ? 'selected' : '' %>>A</option>
+              <option value="B" <%= req.query.sec === 'B' ? 'selected' : '' %>>B</option>
+            </select>
+          </div>
+
+
+          <div class="col-md-4" style="display: flex; align-items:center ; gap: 5px; ">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" name="search" class="search-bar" placeholder="Search student..." value="<%= req.query.search || '' %>" oninput="debounceSubmit(this.form)">
+          </div>
 
         </form>
+
+
+
         <a href=" /repulsor/<%=admin._id%>/addStudent ">+ Add New Student</a>
 
       </div>
@@ -100,6 +134,7 @@
           <tr class="tableHead">
             <th>Sr No.</th>
             <th>Roll No.</th>
+            <th>Reg No.</th>
             <th>Name</th>
             <th>Class</th>
             <th>Father's Name</th>
@@ -109,26 +144,27 @@
           </tr>
           <% if (student && student.length > 0) { %>
           <% student.forEach((student, index) => { %>
-          
-            <tr class="tableItem">
-              <td><%= index + 1 %></td>
-              <td><%= student.rollNo %></td>
-              <td><%= student.name %></td>
-              <td><%= student.class %>(<%=student.sec%>)</td>
-              <td><%=student.fatherName %></td>
-              <td><%=student.email %></td>
-              <td><%=student.contact %></td>
-              <td>
-                <% if (!student.photo || !student.photo.url) { %>
-                <img src="/photos/profile.png" alt="" width="50px">
-                <% } else { %>
-                <img src="<%= student.photo.url %>" alt="" width="50px">
-                <% } %>
-              </td>
+
+          <tr class="tableItem">
+            <td><%= index + 1 %></td>
+            <td><%= student.rollNo %></td>
+            <td><%= student.registrationNo %></td>
+            <td><%= student.name %></td>
+            <td><%= student.class %>(<%=student.sec%>)</td>
+            <td><%=student.fatherName %></td>
+            <td><%=student.email %></td>
+            <td><%=student.contact %></td>
+            <td>
+              <% if (!student.photo || !student.photo.url) { %>
+              <img src="/photos/profile.png" alt="" width="50px">
+              <% } else { %>
+              <img src="<%= student.photo.url %>" alt="" width="50px" style="border-radius: 50%; ">
+              <% } %>
+            </td>
 
 
-            </tr>
-          
+          </tr>
+
           <% }) %>
           <% } else { %>
           <tr>
@@ -152,3 +188,14 @@
 
 </div>
 </div>
+
+<script>
+  let timeout;
+
+  function debounceSubmit(form) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      form.submit();
+    }, 500); // 500ms delay
+  }
+</script>
