@@ -24,6 +24,7 @@ const client = twilio(
 
 const User = require('./models/User.js');
 const Student = require('./models/student.js');
+const Teacher = require('./models/teacher.js');
 const upload = multer({ dest: 'uploads/' });
 
 let port = 8080;
@@ -377,7 +378,7 @@ app.get("/repulsor/:id/student", isAdminLoggedIn, async (req, res) => {
 
     res.render("admin/student.ejs", {
         student,
-        req , 
+        req,
         admin
     });
 });
@@ -452,6 +453,20 @@ app.post(
         }
     }
 );
+
+app.get('/repulsor/:id/staff', isAdminLoggedIn ,async(req, res) => {
+    let { id } = req.params;
+
+    const admin = await User.findById(id);
+    const teacher = await Teacher.find({school : id});
+    res.render('admin/teacher.ejs' , {admin , teacher});
+})
+
+app.get('/repulsor/:id/addMember' ,async (req , res) =>{
+    let {id} = req.params; 
+    const admin = await User.findById(id);
+    res.render('admin/addTeacher.ejs' , {admin});
+})
 
 
 

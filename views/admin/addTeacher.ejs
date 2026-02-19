@@ -1,0 +1,64 @@
+<% layout('/flash/flash') %>
+<div class="add-nav">
+  <div class="logo">
+    <img src="/photos/Gemini_Generated_Image_bqkgnzbqkgnzbqkg-Picsart-BackgroundRemover.png" alt="" width="180px" height="70px">
+  </div>
+  <div class="profile">
+    <div class="profile-icon">
+      <i class="fa-regular fa-circle-user"></i>
+    </div>
+    <div class="admin-detail">
+      <h5><%= admin.adminName %> </h5>
+      <h6>admin</h6>
+    </div>
+  </div>
+</div>
+
+<main class="signup">
+  <h1>Add New Staff Member</h1>
+  <img src="/photos/Gemini_Generated_Image_4ypngu4ypngu4ypn-removebg-preview.png" alt="" width="500px" style="margin-bottom: 40px; margin: 0 auto;">
+  <div class="inner">
+    <form method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
+      <div class="inline">
+        <div class="col-md-6">
+          <label for="name" class="form-label"> Name : </label>
+          <input type="text" class="form-control" id="exampleFormControlInput1" name="name" placeholder="Enter Name" required>
+          <div class="invalid-feedback">
+            this field can't be empty
+          </div>
+        </div>
+        <div class="col-md-2">
+          <label for="inputState" class="form-label">Section :</label>
+          <select id="inputState" class="form-select" name="type" required>
+            <option selected disabled>Member Type</option>
+            <option value="Management">Management</option>
+            <option value="Faculty">Faculty</option>
+            <option value="supportStaff">Support Staff</option>
+
+
+          </select>
+        </div>
+        <div class="col-md-2">
+          <label for="inputState" class="form-label">Gender :</label>
+          <select id="inputState" class="form-select" name="gender" required>
+            <option selected disabled>Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Others..</option>
+          </select>
+        </div>
+      </div>
+      <div class="inline">
+        <div class="col-md-4">
+          <label for="image" class="form-label"> Photo :</label>
+          <input name="photo" type="file" accept=".png, .webp, .jpg" class="form-control" required />
+          <div class="invalid-feedback">Image URL is required. Accepted Formats Are .png/.jpg/.webp</div>
+        </div>
+
+        
+      </div>
+
+
+    </form>
+  </div>
+</main>
