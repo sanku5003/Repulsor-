@@ -454,18 +454,67 @@ app.post(
     }
 );
 
-app.get('/repulsor/:id/staff', isAdminLoggedIn ,async(req, res) => {
+app.get('/repulsor/:id/staff', isAdminLoggedIn, async (req, res) => {
     let { id } = req.params;
 
     const admin = await User.findById(id);
-    const teacher = await Teacher.find({school : id});
-    res.render('admin/teacher.ejs' , {admin , teacher});
+    const teacher = await Teacher.find({ school: id });
+    res.render('admin/teacher.ejs', { admin, teacher });
 })
 
-app.get('/repulsor/:id/addMember' ,async (req , res) =>{
-    let {id} = req.params; 
+app.get('/repulsor/:id/addMember', async (req, res) => {
+    let { id } = req.params;
     const admin = await User.findById(id);
-    res.render('admin/addTeacher.ejs' , {admin});
+    res.render('admin/addTeacher.ejs', {
+        admin, errors: {},
+        oldData: {}
+    });
+})
+
+app.post('/repulsor/:id/addMember', upload.single("photo"), async (req, res) => {
+    try {
+        const { id } = req.params;
+        const newTeacher = new Teacher({
+            ...req.body,
+            school: id,
+        })
+
+        if (req.file) {
+            newTeacher.photo = {
+                url: "/" + req.file.path.replace(/\\/g, "/"),
+                filename: req.file.filename,
+            };
+
+        }
+
+        await newTeacher.save();
+
+        res.redirect(`/repulsor/${id}/staff`);
+    } catch(err) {
+        if (err.code == 11000) {
+            const errors = {};
+
+            if (err.keyPattern.email) {
+                errors.email = "Email already exists";
+            }
+
+            if (err.keyPattern.contact) {
+                errors.contact = "Contact number already exists";
+            }
+
+            if (err.keyPattern.teacherid) {
+                errors.teacherid = 'this teacherId already exists'
+            }
+            return res.render("admin/addStudent.ejs", {
+                errors,
+                oldData: req.body
+            });
+
+        }
+
+        console.error(err);
+        res.status(500).send("Something went wrong");
+    }
 })
 
 

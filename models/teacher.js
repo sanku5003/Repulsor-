@@ -73,19 +73,39 @@ let teacherSchema = new Schema({
 
     role: {
         type: String,
+
+    },
+
+    subject: {
+        type: String,
+        required: true
+    },
+    account: {
+        type: String,
+        required: true
+    },
+
+    IFSC: {
+        type: String,
         required: true
     },
 
     salary: {
         inhand: {
             type: Number,
-            required: true
+            required: true,
+            default: 0
         },
         epf: {
             type: Number,
             required: true
         },
         others: {
+            type: Number,
+            required: true,
+            default: 0
+        },
+        total: {
             type: Number,
             required: true,
             default: 0
