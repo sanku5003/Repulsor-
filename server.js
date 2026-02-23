@@ -385,11 +385,11 @@ app.get("/repulsor/:id/student", isAdminLoggedIn, async (req, res) => {
 
 
 
-app.get("/repulsor/:id/addStudent", (req, res) => {
+app.get("/repulsor/:id/addStudent",async (req, res) => {
     let { id } = req.params;
-    let user = User.findById(id);
+    let admin = await User.findById(id);
     res.render('admin/addStudent.ejs', {
-        user, errors: {},
+        admin, errors: {},
         oldData: {}
     });
 })

@@ -1,9 +1,24 @@
 <% layout('/flash/flash') %>
-<div class="sign-navbar">
+<!-- <div class="sign-navbar">
   <div class="logo">
     <img src="/photos/Gemini_Generated_Image_bqkgnzbqkgnzbqkg-Picsart-BackgroundRemover.png" alt="" width="180px" height="70px">
   </div>
   <button type="button" class="btn btn-outline-light">Back To Home</button>
+</div> -->
+
+<div class="add-nav">
+  <div class="logo">
+    <img src="/photos/Gemini_Generated_Image_bqkgnzbqkgnzbqkg-Picsart-BackgroundRemover.png" alt="" width="180px" height="70px">
+  </div>
+  <div class="profile">
+    <div class="profile-icon">
+      <i class="fa-regular fa-circle-user"></i>
+    </div>
+    <div class="admin-detail">
+      <h5><%= admin.adminName %> </h5>
+      <h6>admin</h6>
+    </div>
+  </div>
 </div>
 
 
@@ -221,7 +236,7 @@
           <label for="name" class="form-label">Father's Name : </label>
           <input type="text" class="form-control" id="exampleFormControlInput1" name="fatherName" placeholder="Enter Father's Name" required>
           <div class="invalid-feedback">
-           Student With this Father Name Already Exist!!
+            Student With this Father Name Already Exist!!
           </div>
         </div>
 
